@@ -55,7 +55,7 @@ def get_product_links(export_path=export_path, results=False, export_product_lin
 
         soup = BeautifulSoup(page.content, 'html.parser')
 
-        shop_all = soup.find_all("a",{"class":"twoItemImageTextBlock_description_itemButton "})
+        shop_all = soup.find_all("a", {"class": "twoItemImageTextBlock_description_itemButton "})
         if shop_all:
             print('Shop all button detected')
             hdef = shop_all.get('hdef')
@@ -119,7 +119,8 @@ def get_product_details(export_path=export_path, return_results=False, export_pr
 
             # Get product meta-data
             try:
-                items = soup.find_all("div", {"class": "athenaProductPage_productAddToBasket cta-sticky-bottom"})
+                items = soup.find_all("div", {"class": "athenaProductPage_productAddToBasket"
+                                                       " cta-sticky-bottom"})
                 meta_data = items[0].find('span',
                                           {'data-product-id': True, 'data-site-id': True, 'data-product-name': True,
                                            'data-product-price': True, 'data-product-category': True})
@@ -147,7 +148,8 @@ def get_product_details(export_path=export_path, return_results=False, export_pr
                     df.loc[i, col] = str(detail.find_all('p')[0])[3:-4]
                 except:
                     try:
-                        detail = str(detail).replace('p&gt;', '<p>').replace('</div>', '</p></div>')
+                        detail = str(detail).replace('p&gt;', '<p>').replace('</div>',
+                                                                             '</p></div>')
                         detail = BeautifulSoup(detail, 'html.parser')
                         df.loc[i, col] = str(detail.find_all('p')[0])[3:-4]
                     except:
